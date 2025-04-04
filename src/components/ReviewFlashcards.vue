@@ -41,8 +41,8 @@ const nextCard = () => {
   setTimeout(() => (forceFront.value = false), 100);
 };
 
-const toggleBackShown = () => {
-  backShown.value = !backShown.value;
+const showButtons = () => {
+  backShown.value = true;
 };
 </script>
 
@@ -57,15 +57,20 @@ const toggleBackShown = () => {
       <h2>Reviewing...</h2>
       <vue-flashcard
         :front="flashcards[currentIndex]?.front"
+
+        :headerBack="flashcards[currentIndex]?.front"
         :back="flashcards[currentIndex]?.back"
+        :footerBack="''"
+
         :width="300"
         :height="200"
         :headerFront="'Question'"
+
         :forceFront="forceFront"
-        @click="toggleBackShown"
+        @click="showButtons"
       />
 
-      <div v-if="backShown" id="next-buttons" style="margin-top: 20px;">
+      <div v-show="backShown" id="next-buttons" style="margin-top: 20px;">
         <button @click="nextCard">✅ Got it right!</button>
         <button @click="nextCard" style="margin-left: 10px;">❌ Couldn't remember...</button>
       </div>

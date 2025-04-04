@@ -2,7 +2,7 @@
 <template>
     <div>
         <div @click="isToggle = !isToggle" v-bind:style="{ backgroundColor: colorFront, color: colorTextFront }"
-            v-show="!isToggle" class="animated flipInX flashcard">
+            v-show="!isToggle" class="animated flipInX clickable-flashcard">
             <div class="card-header" style="padding-bottom: 15px;"> {{ headerFront }} </div>
             <div class="card-content center">
                 <p v-bind:style="{ fontSize: textSizeFront, fontWeight: 'bold' }">{{ front }}</p>
@@ -10,8 +10,8 @@
             </div>
             <div class="card-footer">{{ footerFront }}</div>
         </div>
-        <div @click="isToggle = !isToggle" v-bind:style="{ backgroundColor: colorBack, color: colorTextBack }"
-            v-show="isToggle" class="animated flipInX flashcard">
+        <div v-bind:style="{ backgroundColor: colorBack, color: colorTextBack }" v-show="isToggle"
+            class="animated flipInX flashcard" id="backSide">
             <div class="card-header" style="padding-bottom: 15px;"> {{ headerBack }}</div>
             <div class="card-content center">
                 <p v-bind:style="{ fontSize: textSizeBack, fontWeight: 'bold' }">{{ back }}</p>
@@ -108,8 +108,11 @@ export default {
     text-align: center;
 }
 
-.flashcard {
+.clickable-flashcard {
     cursor: pointer;
+}
+
+.clickable-flashcard, .flashcard {
     border-radius: 10px;
     margin: 20px;
     padding: 25px;
