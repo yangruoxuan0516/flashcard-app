@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "flashcard-app-faf80"
-  }
+    "default": "flashcard-app-faf80",
+    "flashcard-prototype": "flashcard-df573"
+  },
+  "targets": {},
+  "etags": {}
 }
