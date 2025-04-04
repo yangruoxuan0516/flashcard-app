@@ -96,7 +96,7 @@ onMounted(fetchFlashcards);
   background-color:rgb(247, 247, 247); /* light gray background */
   border-radius: 8px; /* rounded corners */
   margin-top: 10px;
-  margin-buttom: 20px;
+  margin-bottom: 20px;
 }
 
 
