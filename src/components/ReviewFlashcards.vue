@@ -7,7 +7,8 @@ import vueFlashcard from './flashcard.vue';
 const flashcards = ref([]);
 const currentIndex = ref(0);
 const finished = ref(false);
-const forceFront = ref(false);
+const forceFront = ref(false); // Controls whether or not to reflip the card
+const backShown = ref(false);
 
 const fetchFlashcards = async () => {
   const user = auth.currentUser;
@@ -21,21 +22,27 @@ const fetchFlashcards = async () => {
   flashcards.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   currentIndex.value = 0;
   finished.value = false;
+  backShown.value = false;
 };
 
 onMounted(fetchFlashcards);
 
 const nextCard = () => {
   forceFront.value = true;
+  backShown.value = false;
+  if (currentIndex.value < flashcards.value.length - 1) {
+    currentIndex.value++;
+  } else {
+    finished.value = true;
+  }
 
-  setTimeout(() => {
-    forceFront.value = false;
-    if (currentIndex.value < flashcards.value.length - 1) {
-      currentIndex.value++;
-    } else {
-      finished.value = true;
-    }
-  }, 100);
+  // Wait a bit for the rest of the program to realize the new forceFront value
+  // Before switching it back 
+  setTimeout(() => (forceFront.value = false), 100);
+};
+
+const toggleBackShown = () => {
+  backShown.value = !backShown.value;
 };
 </script>
 
@@ -55,11 +62,12 @@ const nextCard = () => {
         :height="200"
         :headerFront="'Question'"
         :forceFront="forceFront"
+        @click="toggleBackShown"
       />
 
-      <div style="margin-top: 20px;">
+      <div v-if="backShown" id="next-buttons" style="margin-top: 20px;">
         <button @click="nextCard">✅ Got it right!</button>
-        <button @click="nextCard" style="margin-left: 10px;">❌ Can't remember...</button>
+        <button @click="nextCard" style="margin-left: 10px;">❌ Couldn't remember...</button>
       </div>
     </div>
 
